@@ -16,17 +16,38 @@ void draw() {
 //handle lines
 void checkIntersection(){
     for(Line l:lines){
+        ArrayList<PVector> intersections = new ArrayList<PVector>();
         for(Line m:lines){
             if(m.sx!=l.sx && m.sy!=l.sy && m.ex!=l.ex && m.ey!=l.ey){
-                intersect(m,new Line(l.sx,l.sy,mouseX,mouseY));
+                PVector intersection=intersect(m,new Line(l.sx,l.sy,mouseX,mouseY));
+                if(intersection!=null){
+                    intersections.add(intersection);
+                }
             }
         }
-        for(Line m:lines){
-            if(m.sx!=l.sx && m.sy!=l.sy && m.ex!=l.ex && m.ey!=l.ey){
-                intersect(m,new Line(l.ex,l.ey,mouseX,mouseY));
-            }
+        PVector realIntersection=mini(intersections);
+        // draw line from mouse to intersection point
+        if(realIntersection!=null){
+            stroke(255);
+            line(realIntersection.x,realIntersection.y,mouseX,mouseY);
+            fill(255,0,0);
+            noStroke();
+            ellipse(realIntersection.x,realIntersection.y, 10,10);
         }
     }
+}
+PVector mini(ArrayList<PVector> intersections){
+    float min=999999;
+    PVector pmin=new PVector();
+    for(int i=0;i<intersections.size();i++){
+        PVector p=intersections.get(i);
+        float d=dist(p.x,p.y,mouseX,mouseY);
+        if(d<min){
+            min=d;
+            pmin=p;
+        }
+    }
+    return pmin;
 }
 PVector intersect(Line l1, Line l2){
     float x1=l1.sx,y1=l1.sy,x2=l1.ex,y2=l1.ey;
@@ -39,9 +60,6 @@ PVector intersect(Line l1, Line l2){
         // optionally, draw a circle where the lines meet
         float intersectionX = x1 + (uA * (x2-x1));
         float intersectionY = y1 + (uA * (y2-y1));
-        fill(255,0,0);
-        noStroke();
-        ellipse(intersectionX,intersectionY, 20,20);
         return new PVector(intersectionX,intersectionY);
     }
     return null;
