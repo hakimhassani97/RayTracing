@@ -18,14 +18,14 @@ void checkIntersection(){
     for(Line l:lines){
         ArrayList<PVector> intersections = new ArrayList<PVector>();
         for(Line m:lines){
-            if(m.sx!=l.sx && m.sy!=l.sy && m.ex!=l.ex && m.ey!=l.ey){
+            if((m.sx!=l.sx && m.sy!=l.sy) || (m.ex!=l.ex && m.ey!=l.ey)){
                 PVector intersection=intersect(m,new Line(l.sx,l.sy,mouseX,mouseY));
                 if(intersection!=null){
                     intersections.add(intersection);
                 }
             }
         }
-        PVector realIntersection=mini(intersections);
+        PVector realIntersection=mini(intersections,mouseX,mouseY);
         // draw line from mouse to intersection point
         if(realIntersection!=null){
             stroke(255,0,0);
@@ -36,12 +36,12 @@ void checkIntersection(){
         }
     }
 }
-PVector mini(ArrayList<PVector> intersections){
+PVector mini(ArrayList<PVector> intersections,int x,int y){
     float min=999999;
     PVector pmin=null;
     for(int i=0;i<intersections.size();i++){
         PVector p=intersections.get(i);
-        float d=dist(p.x,p.y,mouseX,mouseY);
+        float d=dist(p.x,p.y,x,y);
         if(d<min){
             min=d;
             pmin=p;
