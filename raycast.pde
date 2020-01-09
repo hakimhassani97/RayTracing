@@ -28,7 +28,7 @@ void checkIntersection(){
         PVector realIntersection=mini(intersections);
         // draw line from mouse to intersection point
         if(realIntersection!=null){
-            stroke(255);
+            stroke(255,0,0);
             line(realIntersection.x,realIntersection.y,mouseX,mouseY);
             fill(255,0,0);
             noStroke();
@@ -38,7 +38,7 @@ void checkIntersection(){
 }
 PVector mini(ArrayList<PVector> intersections){
     float min=999999;
-    PVector pmin=new PVector();
+    PVector pmin=null;
     for(int i=0;i<intersections.size();i++){
         PVector p=intersections.get(i);
         float d=dist(p.x,p.y,mouseX,mouseY);
