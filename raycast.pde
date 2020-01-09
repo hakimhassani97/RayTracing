@@ -18,8 +18,8 @@ void draw() {
 }
 
 void drawLines(){
+    stroke(255);
     for(Line l:lines){
-        fill(255);
         l.draw();
     }
 }
